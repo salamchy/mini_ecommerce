@@ -35,6 +35,7 @@ export const registerUser = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Successfully Registered!!!",
+      data: { email: newUser.email, role: newUser.role },
     });
   } catch (error) {
     console.log(error); // Log the error for debugging
