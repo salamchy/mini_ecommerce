@@ -5,7 +5,7 @@ import {
   registerUser,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../middleware/verifyToken.js";
-import { validateLogin, validateUser } from "../middleware/userValidator.js";
+import { validateLogin, validateUser } from "../middleware/validateUser.js";
 import { validateRequest } from "../middleware/validateRequest.js";
 
 const router = express.Router();
