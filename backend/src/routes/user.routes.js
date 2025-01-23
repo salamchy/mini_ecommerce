@@ -5,11 +5,18 @@ import {
   registerUser,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { validateLogin, validateUser } from "../middleware/userValidator.js";
+import { validateRequest } from "../middleware/validateRequest.js";
 
 const router = express.Router();
 
-router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
+// User registration route
+router.route("/register").post(validateUser, validateRequest, registerUser); // Add validation
+
+// User login route
+router.route("/login").post(validateLogin, validateRequest, loginUser); // Add validation
+
+// User logout route (protected)
 router.route("/logout").post(verifyToken, logoutUser);
 
 export default router;
