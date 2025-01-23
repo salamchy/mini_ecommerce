@@ -1,5 +1,5 @@
 import ProductModel from "../models/products.model.js";
-import { v2 as cloudinary } from "cloudinary";
+import cloudinary from "../cloudinary/index.js";
 import streamifier from "streamifier";
 
 cloudinary.config({
