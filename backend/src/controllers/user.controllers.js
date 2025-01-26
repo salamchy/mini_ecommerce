@@ -89,7 +89,7 @@ export const loginUser = async (req, res) => {
     //set the token as an HTTP-Only Cookie
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: true, //development
+      secure: false, //development
       sameSite: "strict", //prevent from CSRF
       maxAge: 60 * 60 * 1000, //1hour
     });
@@ -99,7 +99,7 @@ export const loginUser = async (req, res) => {
       success: true,
       message: "Login Successfully!!!",
       token,
-      userExist: {
+      user: {
         _id: userExist._id,
         email: userExist.email,
         role: userExist.role,
