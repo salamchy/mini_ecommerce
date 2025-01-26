@@ -27,9 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //router import
 import userRouter from "./routes/user.routes.js";
 import productRouter from "./routes/products.routes.js";
+import orderRouter from "./routes/orders.routes.js";
 
 //router declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1", productRouter);
+app.use("/api/v1", orderRouter);
 
 export { app };
