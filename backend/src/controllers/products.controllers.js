@@ -2,12 +2,6 @@ import ProductModel from "../models/products.model.js";
 import cloudinary from "../cloudinary/index.js";
 import streamifier from "streamifier";
 
-cloudinary.config({
-  cloud_name: "dp6jkp5kx",
-  api_key: "747316749161883",
-  api_secret: "CKT9B3rLTwss6L9cU-iNtc2Z3Pw",
-});
-
 // #controller for create product
 export const createProduct = async (req, res) => {
   try {
@@ -25,10 +19,9 @@ export const createProduct = async (req, res) => {
 
     // Check if an image file is provided
     if (req.file) {
-      // Use a Promise to handle the asynchronous nature of the upload_stream
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: "products" }, // Optional: Save in a specific folder
+          { folder: "products" },
           (error, result) => {
             if (error) {
               reject(error);
@@ -41,10 +34,9 @@ export const createProduct = async (req, res) => {
         streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
       });
 
-      imageUrl = result.secure_url; // Set the image URL
+      imageUrl = result.secure_url;
     }
 
-    // Create a new product
     const newProduct = new ProductModel({
       productName,
       price,
@@ -87,11 +79,51 @@ export const getSingleProduct = async (req, res) => {
   }
 };
 
+// Controller for fetching all unique categories
+export const getAllCategories = async (req, res) => {
+  try {
+    // Fetch all categories and use Set to get unique values
+    const categories = await ProductModel.distinct("category");
+    res.status(200).json({ success: true, data: categories });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// #Controller for fetching products by category
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    // Validate category
+    if (!category) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Category is required" });
+    }
+
+    // Fetch products for the given category
+    const products = await ProductModel.find({ category: category });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for this category",
+      });
+    }
+
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 // #Controller for updating a product
 export const updateProduct = async (req, res) => {
   try {
-    const { productName, price, description, category, stockQuantity } =
-      req.body;
+    // Find the product by ID
     const product = await ProductModel.findById(req.params.id);
 
     if (!product) {
@@ -100,10 +132,21 @@ export const updateProduct = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
 
-    // Handle new image upload if provided
-    let imageUrl = product.imageUrl; // Keep the existing image URL
+    // Prepare an object to hold the updated fields
+    const updatedFields = {};
+
+    // Check each field in the request body and add it if provided
+    if (req.body.productName) updatedFields.productName = req.body.productName;
+    if (req.body.price) updatedFields.price = req.body.price;
+    if (req.body.description) updatedFields.description = req.body.description;
+    if (req.body.category) updatedFields.category = req.body.category;
+    if (req.body.stockQuantity)
+      updatedFields.stockQuantity = req.body.stockQuantity;
+
+    // Handle image upload if a new image is provided
+    let imageUrl = product.imageUrl; // Default to the existing image URL
     if (req.file) {
-      // Delete the old image from Cloudinary
+      // Delete the existing image from Cloudinary if it exists
       if (imageUrl) {
         const publicId = imageUrl.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(`products/${publicId}`);
@@ -124,15 +167,25 @@ export const updateProduct = async (req, res) => {
       imageUrl = result.secure_url; // Update the image URL
     }
 
-    // Update product details
+    if (imageUrl) updatedFields.imageUrl = imageUrl; // Include the new image URL if it was updated
+
+    // Update the product with only the provided fields
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       req.params.id,
-      { productName, price, description, category, stockQuantity, imageUrl },
-      { new: true }
+      updatedFields,
+      { new: true, runValidators: true }
     );
 
+    if (!updatedProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    // Send back the updated product as a response
     res.status(200).json({ success: true, data: updatedProduct });
   } catch (error) {
+    // Handle errors
     res.status(400).json({ success: false, message: error.message });
   }
 };
