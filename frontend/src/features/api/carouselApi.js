@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const carouselApi = createApi({
   reducerPath: "carouselApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mini-ecommerce-hiqe.onrender.com/api/v1",
+    baseUrl: "https://mini-ecommerce-hiqe.onrender.com/api/v1/carousel",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = getState()?.auth?.token;
