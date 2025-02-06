@@ -28,10 +28,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 import userRouter from "./routes/user.routes.js";
 import productRouter from "./routes/products.routes.js";
 import orderRouter from "./routes/orders.routes.js";
+import carouselRouter from "./routes/carousel.routes.js";
+import contactMessageRouter from "./routes/contactMessage.routes.js";
 
 //router declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1", productRouter);
-app.use("/api/v1", orderRouter);
+app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1", carouselRouter);
+app.use("/api/v1", contactMessageRouter);
 
 export { app };
