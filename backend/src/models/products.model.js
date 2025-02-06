@@ -5,12 +5,12 @@ const productSchema = new mongoose.Schema(
     productName: {
       type: String,
       required: [true, "Product name is required"],
-      trim: true, // Removes extra whitespace
+      trim: true,
     },
     price: {
       type: Number,
       required: [true, "Price is required"],
-      min: [0, "Price cannot be negative"], // Ensure price is non-negative
+      min: [0, "Price cannot be negative"],
     },
     description: {
       type: String,
@@ -19,13 +19,23 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      enum: [
+        "phone",
+        "laptop",
+        "keyboard",
+        "camera",
+        "drone",
+        "watch",
+        "mouse",
+        "headphone",
+      ],
       required: [true, "Category is required"],
       trim: true,
     },
     stockQuantity: {
       type: Number,
       required: [true, "Stock quantity is required"],
-      min: [0, "Stock quantity cannot be negative"], // Ensure stock is non-negative
+      min: [0, "Stock quantity cannot be negative"],
     },
     imageUrl: {
       type: String,
@@ -39,7 +49,7 @@ const productSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true } // Adds createdAt and updatedAt fields
+  { timestamps: true }
 );
 
 const ProductModel = mongoose.model("Product", productSchema);
