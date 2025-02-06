@@ -5,16 +5,11 @@ import bodyParser from "body-parser";
 
 const app = express();
 
+// Allow all origins for testing purposes
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mini-ecommerce-lake.vercel.app",
-      "https://mini-ecommerce-hiqe.onrender.com",
-    ],
+    origin: "*",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
