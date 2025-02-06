@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.my-class:focus {
+  outline: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
