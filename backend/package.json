@@ -4,8 +4,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "build": "echo 'No build step needed for this Node.js application'"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
