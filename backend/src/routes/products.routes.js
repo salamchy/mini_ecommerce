@@ -33,7 +33,7 @@ router.route("/products/:id").get(getSingleProduct); // Get a single product by 
 // Route to get all categories
 router.get("/categories", getAllCategories);
 // Route to get products by category
-router.get("/category/:category", getProductsByCategory);
+router.get("/products/category/:category", getProductsByCategory);
 router
   .route("/products/update/:id")
   .put(
