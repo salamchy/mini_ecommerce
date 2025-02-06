@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getUser,
   loginUser,
   logoutUser,
   registerUser,
@@ -18,5 +19,7 @@ router.route("/login").post(validateLogin, validateRequest, loginUser); // Add v
 
 // User logout route (protected)
 router.route("/logout").post(verifyToken, logoutUser);
+
+router.get("/me", verifyToken, getUser);
 
 export default router;
