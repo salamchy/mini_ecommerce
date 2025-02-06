@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "mini-ecommerce-74u58en2i-salamchys-projects.vercel.app",
     credentials: true,
   })
 );
