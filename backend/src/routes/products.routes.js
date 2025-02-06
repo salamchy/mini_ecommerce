@@ -18,7 +18,7 @@ const router = express.Router();
 
 // Routes for products
 router
-  .route("/")
+  .route("/products")
   .post(
     verifyToken,
     verifyAdmin,
@@ -27,15 +27,15 @@ router
     handleValidationErrors,
     createProduct
   ); // Admin only
-router.route("/").get(getAllProducts); // Get all products
-router.route("/:id").get(getSingleProduct); // Get a single product by ID
+router.route("/products").get(getAllProducts); // Get all products
+router.route("/products/:id").get(getSingleProduct); // Get a single product by ID
 
 // Route to get all categories
 router.get("/categories", getAllCategories);
 // Route to get products by category
-router.get("/category/:category", getProductsByCategory);
+router.get("/products/category/:category", getProductsByCategory);
 router
-  .route("/update/:id")
+  .route("/products/update/:id")
   .put(
     verifyToken,
     verifyAdmin,
@@ -43,6 +43,6 @@ router
     handleValidationErrors,
     updateProduct
   ); // Admin only
-router.route("/:id").delete(verifyToken, verifyAdmin, deleteProduct); // Admin only
+router.route("/products/:id").delete(verifyToken, verifyAdmin, deleteProduct); // Admin only
 
 export default router;
