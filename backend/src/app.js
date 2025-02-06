@@ -7,7 +7,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://mini-ecommerce-lake.vercel.app"], // Allow both origins
+    origin: [
+      "http://localhost:5173",
+      "https://mini-ecommerce-lake.vercel.app/",
+    ], // Allow both origins
     credentials: true,
   })
 );
