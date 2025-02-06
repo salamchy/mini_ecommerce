@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "mini-ecommerce-lake.vercel.app",
+    origin: "https://mini-ecommerce-lake.vercel.app", // Updated to include protocol
     credentials: true,
   })
 );
