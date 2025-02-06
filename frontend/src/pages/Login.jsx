@@ -1,19 +1,17 @@
 import { useState } from 'react';
-import { useRegisterUserMutation } from '../features/api/userApi';
-import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useLoginUserMutation } from '../features/api/userApi';
+import { Link, useNavigate } from 'react-router-dom';
 import { setUser } from '../features/slice/authSlice';
 
-const Register = () => {
+const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-
-  const [registerUser, { isLoading, isError, error, isSuccess }] = useRegisterUserMutation();
+  const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,20 +20,22 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await registerUser(formData).unwrap();
-      const { user } = response;
+      const response = await loginUser(formData).unwrap();
+      const { user, token } = response;
 
-      // Store user data in localStorage
+      dispatch(setUser({ user, token }));
+
+      // Set user session in local storage
       localStorage.setItem('user', JSON.stringify(user));
 
-      // Update Redux store
-      dispatch(setUser(user));
-
-      // Show success message
-      alert('Registration successful!');
-      navigate('/login');
+      // Check if the user is an admin and redirect accordingly
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
-      console.error('Registration failed:', err);
+      console.error('Login failed:', err);
     }
   };
 
@@ -45,19 +45,15 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">REGISTER</h2>
+        <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">
+          LOGIN
+        </h2>
 
-        {/* Error Handling */}
         {isError && (
-          <div className="mb-4 p-2 text-sm rounded-lg bg-red-100 text-red-700">
-            {error?.data?.message || "Registration failed! Please try again."}
-          </div>
-        )}
-
-        {/* Success Message */}
-        {isSuccess && (
-          <div className="mb-4 p-2 text-sm rounded-lg bg-green-100 text-green-700">
-            Registration successful! Redirecting to login...
+          <div
+            className="mb-4 p-2 text-sm rounded-lg bg-red-100 text-red-700"
+          >
+            {error?.data?.message || "Login failed!"}
           </div>
         )}
 
@@ -72,7 +68,6 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="mb-4">
           <label className="block text-gray-700">Password</label>
           <input
@@ -84,24 +79,17 @@ const Register = () => {
             required
           />
         </div>
-
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200 cursor-pointer"
           disabled={isLoading}
         >
-          {isLoading ? "Registering..." : "Register"}
+          {isLoading ? "Logging in..." : "Login"}
         </button>
-
-        <p className='flex items-center justify-center mt-3'>
-          Already have an Account?{" "}
-          <Link to="/login">
-            <span className='italic font-medium ml-2 mr-2 mb-3'>Login</span> please!
-          </Link>
-        </p>
+        <p className='flex items-center justify-center mt-3'>Don't have an Account? <Link to="/register"><span className='italic font-medium ml-2 mr-2'>Register</span>please!</Link></p>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;
