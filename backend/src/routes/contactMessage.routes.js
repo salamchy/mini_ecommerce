@@ -9,7 +9,7 @@ import { verifyAdmin } from "../middleware/verifyAdmin.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 const router = express.Router();
 
-router.post("/contact", validateMessage, createMessage);
+router.post("/", validateMessage, createMessage);
 router.get("/admin/messages", verifyToken, verifyAdmin, getAllMessages);
 
 export default router;

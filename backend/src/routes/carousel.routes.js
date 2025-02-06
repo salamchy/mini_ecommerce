@@ -11,13 +11,13 @@ import upload from "../multer/upload.js";
 const router = express.Router();
 
 router.post(
-  "/carousel",
+  "/",
   verifyToken,
   upload.single("image"),
   verifyAdmin,
   addCarouselImage
 );
-router.delete("/carousel/:id", verifyToken, verifyAdmin, deleteCarouselImage);
-router.get("/carousel", getCarouselImages);
+router.delete("/:id", verifyToken, verifyAdmin, deleteCarouselImage);
+router.get("/", getCarouselImages);
 
 export default router;

@@ -34,9 +34,9 @@ import contactMessageRouter from "./routes/contactMessage.routes.js";
 
 //router declaration
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1", productRouter);
+app.use("/api/v1/products", productRouter);
 app.use("/api/v1/orders", orderRouter);
-app.use("/api/v1", carouselRouter);
-app.use("/api/v1", contactMessageRouter);
+app.use("/api/v1/carousel", carouselRouter);
+app.use("/api/v1/contact", contactMessageRouter);
 
 export { app };
