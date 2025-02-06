@@ -5,10 +5,10 @@ import bodyParser from "body-parser";
 
 const app = express();
 
-// Allow all origins for testing purposes
+// Allow specific origins for CORS
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:5173", "https://mini-ecommerce-lake.vercel.app"], // Specify allowed origins
     credentials: true,
   })
 );
