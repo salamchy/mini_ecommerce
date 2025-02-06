@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import connectDB from "../database/index.js";
+import connectDB from "./database/index.js";
 import { app } from "../src/app.js";
 
 // Load environment variables from .env file
