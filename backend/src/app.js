@@ -4,16 +4,13 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 const app = express();
-app.set("trust proxy", 1);
 
-// Allow specific origins for CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://mini-ecommerce-lake.vercel.app"], // Specify allowed origins
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
-app.options("*", cors());
 
 app.use(express.json({ limit: "100kb" }));
 

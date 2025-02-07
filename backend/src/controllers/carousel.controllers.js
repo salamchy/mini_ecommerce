@@ -6,7 +6,9 @@ export const addCarouselImage = async (req, res) => {
   try {
     const existingImages = await CarouselModel.countDocuments();
     if (existingImages >= 4) {
-      return res.status(400).json({ message: "Maximum 4 images allowed" });
+      return res
+        .status(400)
+        .json({ message: "You can only upload 4 images for carousel" });
     }
 
     let imageUrl = null;
@@ -81,6 +83,7 @@ export const deleteCarouselImage = async (req, res) => {
   }
 };
 
+//get carousel image
 export const getCarouselImages = async (req, res) => {
   try {
     const images = await CarouselModel.find().sort({ createdAt: -1 });

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mini-ecommerce-hiqe.onrender.com/api/v1/users",
+    baseUrl: "http://localhost:5005/api/v1/users",
     credentials: "include",
   }),
   endpoints: (builder) => ({

@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 
-// Load environment variables from /src/.env
 dotenv.config({ path: "./src/.env" });
 
 // Configure Cloudinary using environment variables
@@ -11,5 +10,4 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Export the configured Cloudinary instance
 export default cloudinary;
