@@ -47,7 +47,7 @@ export const productApi = createApi({
       invalidatesTags: ["Product"],
     }),
     getProductsByCategory: builder.query({
-      query: (category) => `/products/category/${category}`, // Updated to match new endpoint
+      query: (category) => `/products/category/${category}`,
       providesTags: (result, error, category) => [
         { type: "Product", id: category },
       ],
