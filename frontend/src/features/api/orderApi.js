@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ordersApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5005/api/v1/orders",
+    baseUrl: "http://localhost:5005/api/v1",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = getState()?.auth?.token;
@@ -16,7 +16,7 @@ export const ordersApi = createApi({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
       query: (orderData) => ({
-        url: "/create",
+        url: "/orders/create",
         method: "POST",
         body: orderData,
         headers: {
@@ -34,16 +34,16 @@ export const ordersApi = createApi({
     }),
     getOrders: builder.query({
       query: () => ({
-        url: "/all-orders",
+        url: "/orders/all-orders",
       }),
     }),
     getUserOrders: builder.query({
-      query: () => "/user-order",
+      query: () => "/orders/user-order",
       providesTags: (result, error, arg) => ["UserOrder"],
     }),
     updateOrder: builder.mutation({
       query: ({ id, status }) => ({
-        url: `/update/${id}`,
+        url: `/orders/update/${id}`,
         method: "PUT",
         body: { status },
       }),

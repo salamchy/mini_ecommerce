@@ -11,12 +11,14 @@ import { validateRequest } from "../middleware/validateRequest.js";
 const router = express.Router();
 
 // User registration route
-router.route("/register").post(validateUser, validateRequest, registerUser); // Add validation
+router
+  .route("/users/register")
+  .post(validateUser, validateRequest, registerUser); // Add validation
 
 // User login route
-router.route("/login").post(validateLogin, validateRequest, loginUser); // Add validation
+router.route("/users/login").post(validateLogin, validateRequest, loginUser); // Add validation
 
 // User logout route (protected)
-router.route("/logout").post(verifyToken, logoutUser);
+router.route("/users/logout").post(verifyToken, logoutUser);
 
 export default router;
