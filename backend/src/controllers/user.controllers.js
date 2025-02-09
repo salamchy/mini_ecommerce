@@ -66,7 +66,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Compare the provided password with the hashed password stored in the database
-    const hash = bcrypt.compareSync(password, userExist.password);
+    const hash = await bcrypt.compare(password, userExist.password);
 
     if (!hash) {
       return res.status(400).json({
@@ -89,9 +89,9 @@ export const loginUser = async (req, res) => {
     //set the token as an HTTP-Only Cookie
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: false, //development
-      sameSite: "strict", //prevent from CSRF
-      maxAge: 60 * 60 * 1000, //1hour
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      maxAge: 60 * 60 * 1000,
     });
 
     // Respond with a success message and the generated token
@@ -112,23 +112,16 @@ export const loginUser = async (req, res) => {
 };
 
 //logout controller
-export const logoutUser = (req, res) => {
-  res.clearCookie("authToken");
-  res.status(200).send({
-    message: "Logged out successfully",
-  });
-};
-
-// Get the logged-in user's data
-export const getUser = async (req, res) => {
+export const logoutUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password"); // Fetch user data, excluding the password
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    res.clearCookie("authToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    });
 
-    res.status(200).json(user); // Return the user data as JSON
+    res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 };
