@@ -32,7 +32,7 @@ router.route("/products").get(getAllProducts);
 router.get("/categories", getAllCategories);
 router.get("/products/category/:category", getProductsByCategory);
 
-// Single product routes (Now moved **after** `/categories`)
+// Single product routes
 router.route("/products/:id").get(getSingleProduct);
 router
   .route("/products/update/:id")

@@ -13,12 +13,12 @@ const router = express.Router();
 // User registration route
 router
   .route("/users/register")
-  .post(validateUser, validateRequest, registerUser); // Add validation
+  .post(validateUser, validateRequest, registerUser);
 
 // User login route
-router.route("/users/login").post(validateLogin, validateRequest, loginUser); // Add validation
+router.route("/users/login").post(validateLogin, validateRequest, loginUser);
 
-// User logout route (protected)
+// User logout route
 router.route("/users/logout").post(verifyToken, logoutUser);
 
 export default router;
