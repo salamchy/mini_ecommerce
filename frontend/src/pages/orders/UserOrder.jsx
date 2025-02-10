@@ -40,7 +40,7 @@ const UserOrder = () => {
             <ul className="list-disc pl-5 mt-2">
               {order.products.map((item, index) => (
                 <li key={index} className="flex items-center space-x-3">
-                  {item.productId.imageUrl && (
+                  {item.productId?.imageUrl && (
                     <img
                       src={item.productId?.imageUrl}
                       alt={item.productId.productName || "Product"}

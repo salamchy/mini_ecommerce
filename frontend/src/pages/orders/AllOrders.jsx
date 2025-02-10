@@ -96,7 +96,7 @@ const AllOrders = () => {
               <div className="bg-gray-50 px-6 py-4">
                 <h4 className="text-lg font-medium text-gray-800 mb-2">Products</h4>
                 <ul className="space-y-2">
-                  {order.products.map((item, index) => (
+                  {order?.products.map((item, index) => (
                     <li key={index} className="flex items-center space-x-4">
                       {item.productId?.imageUrl && (
                         <img
