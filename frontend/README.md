@@ -190,8 +190,10 @@ Mini-eCommerce is a modern web application built using React.js, Redux Toolkit, 
 
 ### html
 
+```
 jsx
 <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">Buy Now</button>
+```
 
 ### Routing
 
