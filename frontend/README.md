@@ -197,17 +197,19 @@ jsx
 
 #### React Router DOM is used for navigation. Example:
 
-jsx
-
+```jsx
 <Route path="/products" element={<Products />} />
+```
 
 ### Notifications
 
 #### React Toastify is used for displaying success/error messages.
 
+```
 jsx
 
 toast.success("Product added successfully!");
+```
 
 ### Conclusion
 
