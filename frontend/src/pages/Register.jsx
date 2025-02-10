@@ -23,24 +23,28 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await registerUser(formData).unwrap();
-      const { user } = response;
 
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(user));
+      // Check if response and user exist before storing
+      if (response && response.user) {
+        localStorage.setItem('user', JSON.stringify(response.user));
 
-      // Update Redux store
-      dispatch(setUser(user));
+        // Update Redux store
+        dispatch(setUser(response.user));
 
-      setFormData({ email: '', password: '' });
+        // Clear form fields
+        setFormData({ email: '', password: '' });
 
-      // Show success message
-      alert('Registration successful!');
-      navigate('/login');
+        // Show success message
+        alert('Registration successful!');
+        navigate('/login');
+      } else {
+        console.error("Invalid response format:", response);
+        alert("Registration failed. Please try again.");
+      }
     } catch (err) {
       console.error('Registration failed:', err);
     }
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
