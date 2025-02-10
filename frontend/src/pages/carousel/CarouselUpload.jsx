@@ -36,7 +36,7 @@ const CarouselUpload = () => {
       refetch(); // Refresh image list after upload
     } catch (error) {
       console.error("Upload failed:", error);
-      toast.error("❌ Failed to upload image!", { position: "top-right" });
+      toast.error("❌ You can upload 4 image!", { position: "top-right" });
     }
   };
 
