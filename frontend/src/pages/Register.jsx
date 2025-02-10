@@ -23,19 +23,28 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await registerUser(formData).unwrap();
-      const { user } = response;
 
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(user));
+      // Ensure response has the expected structure
+      if (response && response.user) {
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(response.user));
 
-      // Update Redux store
-      dispatch(setUser(user));
+        // Update Redux store safely
+        dispatch(setUser(response.user || {}));
 
-      // Show success message
-      alert('Registration successful!');
-      navigate('/login');
+        // Clear form fields
+        setFormData({ email: '', password: '' });
+
+        // Show success message
+        alert('Registration successful!');
+        navigate('/login');
+      } else {
+        console.error("Invalid API response format:", response);
+        alert("Registration failed. Please try again.");
+      }
     } catch (err) {
       console.error('Registration failed:', err);
+      alert('An error occurred. Please try again later.');
     }
   };
 
