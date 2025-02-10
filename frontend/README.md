@@ -1,182 +1,214 @@
-# Project Name: Mini E-commerce Application
+# Mini-eCommerce
 
-## Project Overview
+## Frontend Documentation
 
-### Description
+### Overview
 
-This project is a web application built with React that allows users to browse products, manage their shopping cart, and place orders. It features an admin dashboard for managing products and orders.
+Mini-eCommerce is a modern web application built using React.js, Redux Toolkit, and Tailwind CSS. It provides users with an intuitive shopping experience while offering administrative functionalities for managing products, orders, and users.
 
 ### Tech Stack
 
-- React.js
-- Redux Toolkit
-- Tailwind CSS
-- reduxjs/toolkit
-- react-icon
-- react-redux
-- react-responsive-carousel
-- react-router-dom
-- react-toastify
+- **Framework**: React.js (v18.3.1)
+- **State Management**: Redux Toolkit (@reduxjs/toolkit/query/react)
+- **Styling**: Tailwind CSS (v4.0.0)
+- **Routing**: React Router DOM (v7.1.3)
+- **HTTP Requests**: Axios (v1.7.9)
+- **Notifications**: React Toastify (v11.0.3)
+- **Carousel**: React Responsive Carousel (v3.2.23)
+- **Icons**: React Icons (v5.4.0)
 
-### Live Demo
+### Features
 
-[Link to the deployed site](#) (insert the actual link here)
+- User Authentication: Register, login, logout functionality.
+- Product Management: Fetching, adding, updating, and deleting products.
+- Cart Management: Add, remove, increase/decrease quantity.
+- Order Management: Create, update, and view orders.
+- Contact Form: Submit and fetch messages.
+- Carousel Management: Fetch, upload, and delete carousel images.
 
-## Installation & Setup
+### API Integrations
 
-### Prerequisites
+#### 1. User API (`userApi`)
 
-- Node.js (version 14.0.0 or higher)
-- npm or yarn
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/salamchy/mini_ecommerce.git
-```
-
-### Install Dependencies
-
-```bash
-cd project-name
-npm install
-```
-
-### Run the Project
-
-```bash
-npm start
-```
-
-This will start the development server and open the application in your default web browser.
-
-### Environment Variables
-
-Create a `.env` file in the root directory and add the necessary environment variables. Example:
-
-## Project Structure
-
-```
-project-name/
-├── public/
-│   ├── index.html
-│   └── vite.svg
-├── src/
-│   ├── components/
-│   │   ├── Button.js
-│   │   ├── Navbar.js
-│   │   └── OrderCard.js
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Login.jsx
-│   │   └── Register.jsx
-│   ├── App.jsx
-│   ├── index.js
-│   └── assets/
-│       ├── drone.jpg
-│       └── headphone.png
-├── package.json
-└── README.md
-```
-
-## Key Features
-
-- 🔹 **User Authentication**: Implemented using JWT for secure login and registration.
-- 🔹 **Product Listings and Search**: Users can browse and search for products easily.
-- 🔹 **Shopping Cart & Order Management**: Users can add products to their cart and manage their orders.
-- 🔹 **Responsive UI using Tailwind CSS**: The application is fully responsive and looks great on all devices.
-- 🔹 **API Integration with Backend**: Seamless integration with the backend for data fetching and manipulation.
-
-## API Endpoints Used
-
-- **GET /api/v1/products**: Fetch all products
-
-  - **Response Example**:
-
-  ```json
-  [
+```json
+{
+  "endpoints": [
     {
-      "id": 1,
-      "name": "Product Name",
-      "price": 29.99,
-      "description": "Product description here.",
-      "image": "url_to_image"
+      "name": "registerUser",
+      "method": "POST",
+      "path": "/users/register"
+    },
+    {
+      "name": "loginUser",
+      "method": "POST",
+      "path": "/users/login"
+    },
+    {
+      "name": "logoutUser",
+      "method": "POST",
+      "path": "/users/logout"
     }
   ]
-  ```
-
-- **POST /api/v1/auth/login**: User login
-
-  - **Request Example**:
-
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "yourpassword"
-  }
-  ```
-
-- **PUT /api/v1/orders/:id**: Update order status
-  - **Request Example**:
-  ```json
-  {
-    "status": "shipped"
-  }
-  ```
-
-## State Management
-
-### Redux Toolkit Slices:
-
-- **authSlice.js**: Manages authentication state.
-- **cartSlice.js**: Handles cart actions.
-
-### RTK Query
-
-Utilized for making API calls and managing server state.
-
-## Component Breakdown
-
-- **Button.js**: Custom button with loading states.
-- **Navbar.js**: Navigation bar with login/logout functionality.
-- **OrderCard.js**: Displays individual order details.
-
-## Testing
-
-If applicable, run the tests using:
-
-```bash
-npm test
+}
 ```
 
-## Contributing
+#### 2. Product API (productApi)
 
-Contributions are welcome! Please follow these steps:
+```json
+{
+  "endpoints": [
+    {
+      "name": "getAllProducts",
+      "method": "GET",
+      "path": "/products"
+    },
+    {
+      "name": "getSingleProduct",
+      "method": "GET",
+      "path": "/products/{id}"
+    },
+    {
+      "name": "createProduct",
+      "method": "POST",
+      "path": "/products"
+    },
+    {
+      "name": "updateProduct",
+      "method": "PUT",
+      "path": "/products/update/{id}"
+    },
+    {
+      "name": "deleteProduct",
+      "method": "DELETE",
+      "path": "/products/{id}"
+    },
+    {
+      "name": "getProductsByCategory",
+      "method": "GET",
+      "path": "/products/category/{category}"
+    },
+    {
+      "name": "getAllCategories",
+      "method": "GET",
+      "path": "/categories"
+    }
+  ]
+}
+```
 
-1. Fork the repository.
-2. Create a new branch for your feature:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Make your changes and commit them:
-   ```bash
-   git commit -m "Add some feature"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature-name
-   ```
-5. Open a pull request.
+#### 3. Orders API (ordersApi)
 
-## License
+```json
+{
+  "endpoints": [
+    {
+      "name": "createOrder",
+      "method": "POST",
+      "path": "/orders/create"
+    },
+    {
+      "name": "getOrders",
+      "method": "GET",
+      "path": "/orders/all-orders"
+    },
+    {
+      "name": "getUserOrders",
+      "method": "GET",
+      "path": "/orders/user-order"
+    },
+    {
+      "name": "updateOrder",
+      "method": "PUT",
+      "path": "/orders/update/{id}"
+    }
+  ]
+}
+```
 
-This project is licensed under the [MIT License](LICENSE).
+#### 4. Contact API (contactApi)
 
-## Roadmap
+```json
+{
+  "endpoints": [
+    {
+      "name": "submitMessage",
+      "method": "POST",
+      "path": "/contact"
+    },
+    {
+      "name": "fetchMessages",
+      "method": "GET",
+      "path": "/admin/messages"
+    }
+  ]
+}
+```
 
-- Implement user reviews and ratings for products.
-- Add payment gateway integration.
+#### 5. Carousel API (carouselApi)
 
-## Acknowledgments
+```json
+{
+  "endpoints": [
+    {
+      "name": "fetchCarouselImages",
+      "method": "GET",
+      "path": "/carousel"
+    },
+    {
+      "name": "uploadCarouselImage",
+      "method": "POST",
+      "path": "/carousel"
+    },
+    {
+      "name": "deleteCarouselImage",
+      "method": "DELETE",
+      "path": "/carousel/{id}"
+    }
+  ]
+}
+```
 
-- Special thanks to the React community for their support and resources.
+### State Management
+
+    Cart Slice (cartSlice.js):
+        Handles cart operations, stored in localStorage.
+        Actions:
+            addToCart
+            removeFromCart
+            increaseQuantity
+            decreaseQuantity
+            clearCart
+    Auth Slice (authSlice.js):
+        Manages user authentication.
+        Actions:
+            setUser
+            clearUser
+
+### Styling
+
+#### Tailwind CSS is used for styling components efficiently with utility classes. Example:
+
+### html
+
+jsx
+<button className="bg-blue-500 text-white px-4 py-2 rounded-lg">Buy Now</button>
+
+### Routing
+
+#### React Router DOM is used for navigation. Example:
+
+jsx
+
+<Route path="/products" element={<Products />} />
+
+### Notifications
+
+#### React Toastify is used for displaying success/error messages.
+
+jsx
+
+toast.success("Product added successfully!");
+
+### Conclusion
+
+This frontend is built with scalability in mind, using Redux Toolkit for state management and Tailwind CSS for styling. The API services are modular and well-structured, making it easy to extend the application's functionality.
