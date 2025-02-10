@@ -5,11 +5,10 @@
 ### 1. Register User
 
 - **Method**: POST
-- **URL**: `/register`
+- **URL**: `/api/v1/users/register`
 - **Middleware**: `validateUser`, `validateRequest`
 - **Description**: Registers a new user.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -30,11 +29,10 @@
 ### 2. Login User
 
 - **Method**: POST
-- **URL**: `/login`
+- **URL**: `/api/v1/users/login`
 - **Middleware**: `validateLogin`, `validateRequest`
 - **Description**: Logs in a user.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -55,11 +53,10 @@
 ### 3. Logout User
 
 - **Method**: POST
-- **URL**: `/logout`
+- **URL**: `/api/v1/users/logout`
 - **Middleware**: `verifyToken`
 - **Description**: Logs out the authenticated user.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -73,11 +70,10 @@
 ### 1. Create Contact Message
 
 - **Method**: POST
-- **URL**: `/contact`
+- **URL**: `/api/v1/contact`
 - **Middleware**: `validateMessage`
 - **Description**: Creates a new contact message.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -99,11 +95,10 @@
 ### 2. Get All Messages
 
 - **Method**: GET
-- **URL**: `/admin/messages`
+- **URL**: `/api/v1/admin/messages`
 - **Middleware**: `verifyToken`, `verifyAdmin`
 - **Description**: Retrieves all contact messages for admin users.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -124,11 +119,10 @@
 ### 1. Create Order
 
 - **Method**: POST
-- **URL**: `/create`
+- **URL**: `/api/v1/orders/create`
 - **Middleware**: `verifyToken`
 - **Description**: Creates a new order.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -172,11 +166,10 @@
 ### 2. Get User Orders
 
 - **Method**: GET
-- **URL**: `/user-order`
+- **URL**: `/api/v1/orders/user-order`
 - **Middleware**: `verifyToken`
 - **Description**: Retrieves the orders for the authenticated user.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -194,11 +187,10 @@
 ### 3. Get All Orders
 
 - **Method**: GET
-- **URL**: `/all-orders`
+- **URL**: `/api/v1/orders/all-orders`
 - **Middleware**: `verifyToken`, `verifyAdmin`
 - **Description**: Retrieves all orders for admin users.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -217,11 +209,10 @@
 ### 4. Update Order Status
 
 - **Method**: PUT
-- **URL**: `/update/:id`
+- **URL**: `/api/v1/orders/update/:id`
 - **Middleware**: `verifyToken`, `verifyAdmin`
 - **Description**: Updates the status of an order by its ID.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -243,11 +234,10 @@
 ### 1. Add Carousel Image
 
 - **Method**: POST
-- **URL**: `/carousel`
+- **URL**: `/api/v1/carousel`
 - **Middleware**: `verifyToken`, `upload.single("image")`, `verifyAdmin`
 - **Description**: Adds a new carousel image.
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -267,11 +257,10 @@
 ### 2. Delete Carousel Image
 
 - **Method**: DELETE
-- **URL**: `/carousel/:id`
+- **URL**: `/api/v1/carousel/:id`
 - **Middleware**: `verifyToken`, `verifyAdmin`
 - **Description**: Deletes a carousel image by its ID.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -283,10 +272,9 @@
 ### 3. Get Carousel Images
 
 - **Method**: GET
-- **URL**: `/carousel`
+- **URL**: `/api/v1/carousel`
 - **Description**: Retrieves all carousel images.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -305,11 +293,10 @@
 ### 1. Create Product
 
 - **Method**: POST
-- **URL**: `/products`
+- **URL**: `/api/v1/products`
 - **Middleware**: `verifyToken`, `verifyAdmin`, `upload.single("image")`, `validateProduct`, `handleValidationErrors`
 - **Description**: Creates a new product (Admin only).
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -340,10 +327,9 @@
 ### 2. Get All Products
 
 - **Method**: GET
-- **URL**: `/products`
+- **URL**: `/api/v1/products`
 - **Description**: Retrieves all products.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -364,10 +350,9 @@
 ### 3. Get Single Product
 
 - **Method**: GET
-- **URL**: `/products/:id`
+- **URL**: `/api/v1/products/:id`
 - **Description**: Retrieves a single product by its ID.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -386,10 +371,9 @@
 ### 4. Get All Categories
 
 - **Method**: GET
-- **URL**: `/categories`
+- **URL**: `/api/v1/categories`
 - **Description**: Retrieves all product categories.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -401,10 +385,9 @@
 ### 5. Get Products by Category
 
 - **Method**: GET
-- **URL**: `/products/category/:category`
+- **URL**: `/api/v1/products/category/:category`
 - **Description**: Retrieves products by category.
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
@@ -422,11 +405,10 @@
 ### 6. Update Product
 
 - **Method**: PUT
-- **URL**: `/products/update/:id`
+- **URL**: `/api/v1/products/update/:id`
 - **Middleware**: `verifyToken`, `verifyAdmin`, `upload.single("image")`, `handleValidationErrors`
 - **Description**: Updates a product by its ID (Admin only).
-
-**Example JSON Request**:
+  **Example JSON Request**:
 
 ```json
 {
@@ -456,11 +438,10 @@
 ### 7. Delete Product
 
 - **Method**: DELETE
-- **URL**: `/products/:id`
+- **URL**: `/api/v1/products/:id`
 - **Middleware**: `verifyToken`, `verifyAdmin`
 - **Description**: Deletes a product by its ID (Admin only).
-
-**Example JSON Response**:
+  **Example JSON Response**:
 
 ```json
 {
