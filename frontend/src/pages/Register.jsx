@@ -31,6 +31,8 @@ const Register = () => {
       // Update Redux store
       dispatch(setUser(user));
 
+      setFormData({ email: '', password: '' });
+
       // Show success message
       alert('Registration successful!');
       navigate('/login');
