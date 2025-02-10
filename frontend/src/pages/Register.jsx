@@ -1,41 +1,79 @@
-import { useState } from 'react';
-import { useRegisterUserMutation } from '../features/api/userApi';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../features/slice/authSlice';
+import { useState } from "react";
+import { useRegisterUserMutation } from "../features/api/userApi";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/slice/authSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
-  const [registerUser, { isLoading, isError, error, isSuccess }] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Frontend Validation
+  const validateForm = () => {
+    const { email, password } = formData;
+
+    if (!email.trim()) {
+      toast.error("Email is required.");
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return false;
+    }
+    if (!password.trim()) {
+      toast.error("Password is required.");
+      return false;
+    }
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long.");
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must contain at least one uppercase letter.");
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      toast.error("Password must contain at least one lowercase letter.");
+      return false;
+    }
+    if (!/[0-9]/.test(password)) {
+      toast.error("Password must contain at least one digit.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return; // Stop submission if validation fails
+
     try {
       const response = await registerUser(formData).unwrap();
-      const { user } = response;
 
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // Update Redux store
-      dispatch(setUser(user));
-
-      // Show success message
-      alert('Registration successful!');
-      navigate('/login');
+      if (response.success) {
+        toast.success("Successfully Registered!");
+        localStorage.setItem("user", JSON.stringify(response.data));
+        dispatch(setUser(response.data));
+        navigate("/login");
+      } else {
+        toast.error(response.message || "Registration failed!");
+      }
     } catch (err) {
-      console.error('Registration failed:', err);
+      toast.error(err.data?.message || "Registration failed! Please try again.");
     }
   };
 
@@ -46,20 +84,6 @@ const Register = () => {
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-4 text-center">REGISTER</h2>
-
-        {/* Error Handling */}
-        {isError && (
-          <div className="mb-4 p-2 text-sm rounded-lg bg-red-100 text-red-700">
-            {error?.data?.message || "Registration failed! Please try again."}
-          </div>
-        )}
-
-        {/* Success Message */}
-        {isSuccess && (
-          <div className="mb-4 p-2 text-sm rounded-lg bg-green-100 text-green-700">
-            Registration successful! Redirecting to login...
-          </div>
-        )}
 
         <div className="mb-4">
           <label className="block text-gray-700">Email</label>
@@ -93,10 +117,10 @@ const Register = () => {
           {isLoading ? "Registering..." : "Register"}
         </button>
 
-        <p className='flex items-center justify-center mt-3'>
+        <p className="flex items-center justify-center mt-3">
           Already have an Account?{" "}
           <Link to="/login">
-            <span className='italic font-medium ml-2 mr-2 mb-3'>Login</span> please!
+            <span className="italic font-medium ml-2 mr-2 mb-3">Login</span> please!
           </Link>
         </p>
       </form>
